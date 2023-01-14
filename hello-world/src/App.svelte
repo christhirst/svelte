@@ -1,30 +1,74 @@
 <script>
-	export let name;
+  import ClientsView from "./components/Clients.svelte";
+  import AddClient from "./components/AddClient.svelte";
+  import { onMount } from "svelte";
+  let clients = [];
+
+  onMount(async () => {
+    const response = await fetch("http://localhost:8280/oauth/clients");
+    clients = await response.json();
+  });
+
+  const names = ["Batman", "Test"];
+  const channel = "<b>Code</b>";
+  let count = 0;
+  function handleClick() {
+    count += 1;
+  }
+  const formValues = {
+    name: "",
+  };
+  function submitForm(event) {
+    event.preventDefault();
+    console.log(formValues);
+  }
+
+  const deleteClient = (e) => {
+    const itemId = e.detail;
+    // TODO  {item.client_id} -->
+    clients = clients.filter((item) => item.client_name != itemId);
+  };
+
+  $: count = clients.length;
+
+  const addClient = (e) => {
+    const newClient = e.detail;
+    clients = [newClient, ...clients];
+    console.log(e.detail);
+  };
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <h1>{count}</h1>
+  <AddClient on:add-client={addClient} />
+
+  <ClientsView on:delete-client={deleteClient} />
+
+  {#each names as name, index}
+    <h2>{index + 1} {name}</h2>
+  {/each}
+  <div><pre>{JSON.stringify(formValues)}</pre></div>
+
+  <form on:submit={submitForm}>
+    <div><input type="text" id="name" bind:value={formValues.name} /></div>
+  </form>
+  <input type="text" id="name" bind:value={formValues.name} />
+
+  <button on:click={handleClick}>Count {count}</button>
+  <div>{@html channel}</div>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+  main {
+    text-align: center;
+    padding: 1em;
+    max-width: 240px;
+    margin: 0 auto;
+  }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  @media (min-width: 640px) {
+    main {
+      max-width: none;
+    }
+  }
 </style>
