@@ -1,25 +1,30 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { ClientData } from "../stores";
   import Card from "./Card.svelte";
   export let item;
-  const dispatch = createEventDispatcher();
+  export let index;
+  let clients = [];
+
+  ClientData.subscribe((data) => (clients = data));
 
   const handleDelete = (itemId) => {
+    ClientData.update((currentClients) => {
+      console.log(currentClients);
+      return currentClients.filter((item) => item.client_name != itemId);
+    });
     console.log(itemId);
-    dispatch("delete-client", itemId);
   };
 </script>
 
 <Card>
   <div class="num-disply">
     <!-- // TODO  {item.client_id} -->
-    <h3>{item.client_name}. {item.client_id}</h3>
+    <h3>{index + 1}: {item.client_name} - {item.client_id}</h3>
   </div>
   <button class="close" on:click={() => handleDelete(item.client_name)}
     >X</button
   >
   <!-- <p class="text-display">{item.text}</p> -->
-  Hello:
 </Card>
 
 <style>

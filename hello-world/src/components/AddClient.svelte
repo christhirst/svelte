@@ -3,6 +3,7 @@
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
   import Card from "./Card.svelte";
+  import { ClientData } from "../stores";
 
   const dispatch = createEventDispatcher();
 
@@ -25,7 +26,11 @@
         id: uuidv4(),
         text,
       };
-      dispatch("add-client", newClient);
+
+      ClientData.update((currentClients) => {
+        return [newClient, ...currentClients];
+      });
+
       text = "";
     }
   };

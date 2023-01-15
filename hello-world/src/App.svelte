@@ -1,12 +1,22 @@
 <script>
   import ClientsView from "./components/Clients.svelte";
   import AddClient from "./components/AddClient.svelte";
+  import Sso from "./components/Sso.svelte";
+  import { ClientData } from "./stores.js";
   import { onMount } from "svelte";
   let clients = [];
 
   onMount(async () => {
-    const response = await fetch("http://localhost:8280/oauth/clients");
-    clients = await response.json();
+    fetch("http://localhost:8280/oauth/clients")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        ClientData.set(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        return [];
+      });
   });
 
   const names = ["Batman", "Test"];
@@ -23,11 +33,11 @@
     console.log(formValues);
   }
 
-  const deleteClient = (e) => {
+  /*  const deleteClient = (e) => {
     const itemId = e.detail;
     // TODO  {item.client_id} -->
     clients = clients.filter((item) => item.client_name != itemId);
-  };
+  }; */
 
   $: count = clients.length;
 
@@ -40,9 +50,11 @@
 
 <main>
   <h1>{count}</h1>
+  <Sso />
+
   <AddClient on:add-client={addClient} />
 
-  <ClientsView on:delete-client={deleteClient} />
+  <ClientsView />
 
   {#each names as name, index}
     <h2>{index + 1} {name}</h2>
