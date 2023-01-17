@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { ClientData } from "../stores";
   import Card from "./Card.svelte";
   export let item;
@@ -10,14 +10,23 @@
   const handleDelete = (itemId) => {
     ClientData.update((currentClients) => {
       console.log(currentClients);
+      deleteUser(currentClients);
       return currentClients.filter((item) => item.client_name != itemId);
     });
     console.log(itemId);
   };
+
+  const deleteUser = async (id: string) => {
+    const response = await fetch(`https://api.example.com/users/${id}`, {
+      method: "DELETE",
+    });
+    const json = await response.json();
+    console.log(json);
+  };
 </script>
 
 <Card>
-  <div class="num-disply">
+  <div class="num-display">
     <!-- // TODO  {item.client_id} -->
     <h3>{index + 1}: {item.client_name} - {item.client_id}</h3>
   </div>

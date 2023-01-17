@@ -1,11 +1,12 @@
 <script>
   import ClientsView from "./components/Clients.svelte";
   import AddClient from "./components/AddClient.svelte";
-  import Sso from "./components/Sso.svelte";
+  import Home from "./components/Home.svelte";
+
   import { ClientData } from "./stores.js";
   import { onMount } from "svelte";
   let clients = [];
-
+  export let menu = 1;
   onMount(async () => {
     fetch("http://localhost:8280/oauth/clients")
       .then((response) => response.json())
@@ -19,27 +20,11 @@
       });
   });
 
-  const names = ["Batman", "Test"];
-  const channel = "<b>Code</b>";
-  let count = 0;
-  function handleClick() {
-    count += 1;
-  }
-  const formValues = {
-    name: "",
-  };
-  function submitForm(event) {
-    event.preventDefault();
-    console.log(formValues);
-  }
-
   /*  const deleteClient = (e) => {
     const itemId = e.detail;
     // TODO  {item.client_id} -->
     clients = clients.filter((item) => item.client_name != itemId);
   }; */
-
-  $: count = clients.length;
 
   const addClient = (e) => {
     const newClient = e.detail;
@@ -49,25 +34,38 @@
 </script>
 
 <main>
-  <h1>{count}</h1>
-  <Sso />
+  Test
+  <ul id="menu">
+    <li><a href="/" on:click|preventDefault={() => (menu = 1)}>Home</a></li>
+    |
+    <li><a href="/" on:click|preventDefault={() => (menu = 2)}>Clients</a></li>
+    |
+    <li>
+      <a href="/" on:click|preventDefault={() => (menu = 3)}>Add Client</a>
+    </li>
+    |
+    <li>
+      <a href="/" on:click|preventDefault={() => (menu = 4)}>Add Provider</a>
+    </li>
+    |
+    <li><a href="/" on:click|preventDefault={() => (menu = 5)}>Add Sync</a></li>
+  </ul>
 
-  <AddClient on:add-client={addClient} />
-
-  <ClientsView />
-
-  {#each names as name, index}
-    <h2>{index + 1} {name}</h2>
-  {/each}
-  <div><pre>{JSON.stringify(formValues)}</pre></div>
-
-  <form on:submit={submitForm}>
-    <div><input type="text" id="name" bind:value={formValues.name} /></div>
-  </form>
-  <input type="text" id="name" bind:value={formValues.name} />
-
-  <button on:click={handleClick}>Count {count}</button>
-  <div>{@html channel}</div>
+  {#if menu === 1}
+    <Home />
+  {:else if menu === 2}
+    <ClientsView />
+  {:else if menu === 3}
+    <AddClient on:add-client={addClient} />
+  {:else if menu === 4}
+    <ClientsView />
+  {:else if menu === 5}
+    <ClientsView />
+  {:else if menu === 6}
+    <ClientsView />
+  {:else}
+    <h1>Page Not Found</h1>
+  {/if}
 </main>
 
 <style>
@@ -82,5 +80,9 @@
     main {
       max-width: none;
     }
+  }
+
+  ul#menu li {
+    display: inline;
   }
 </style>
