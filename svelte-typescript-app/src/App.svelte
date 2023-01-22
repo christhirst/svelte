@@ -2,6 +2,7 @@
   import Home from "./components/Home.svelte";
   import ClientsView from "./components/Clients.svelte";
   import AddClient from "./components/AddClient.svelte";
+  import Auth from "./components/Auth.svelte";
   //export let name: string;
   export let menu = 1;
   let clients = [];
@@ -32,6 +33,7 @@
   </ul>
   {#if menu === 1}
     <Home />
+    <Auth />
   {:else if menu === 2}
     <ClientsView />
   {:else if menu === 3}

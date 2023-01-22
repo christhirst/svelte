@@ -10,12 +10,14 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-polyfill-node": "^0.11.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
     "svelte": "^3.0.0",
@@ -25,7 +27,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "oidc-client-ts": "^2.2.0",
+    "openid-client": "^5.3.1",
     "sirv-cli": "^2.0.0",
     "uuid": "^9.0.0"
   }
