@@ -1,10 +1,20 @@
 <script lang="ts">
 	import { Issuer } from 'openid-client';
 	import { generators, BaseClient } from 'openid-client';
+
+	import { goto } from '$app/navigation';
 	import { redirect } from '@sveltejs/kit';
-	let client: BaseClient;
-	(async () => {
-		let data = await Issuer.discover(
+	/* console.log('rwererer');
+	throw redirect(302, '/redirect');
+	export function load() {
+		return {
+			status: 302,
+			redirect: '/'
+		};
+	} */
+	//let client: BaseClient;
+	/* (async () => {
+		const data = await Issuer.discover(
 			'http://localhost:8280/oauth/.well-known/openid-configuration'
 		);
 		//console.log(data);
@@ -24,15 +34,19 @@
 		// it should be httpOnly (not readable by javascript) and encrypted.
 
 		const code_challenge = generators.codeChallenge(code_verifier);
-		/* 
-    client.authorizationUrl({
-        //scope: 'openid email profile',
-        resource: 'http://localhost:8280/oauth/',
-        state: 'test',
-        code_challenge,  
-        code_challenge_method: 'S256'
-    }); */
+
+		const url = client.authorizationUrl({
+			//scope: 'openid email profile',
+			resource: 'http://localhost:8280/oauth/',
+			state: 'test',
+			code_challenge,
+			code_challenge_method: 'S256'
+		});
 		console.log('###!###');
-		console.log(client.authorizationUrl({ state: 'test' }));
-	})();
+		console.log(url);
+
+		var re = /https/gi;
+		var newurl = url.replace(re, 'http');
+		console.log(newurl);
+	})(); */
 </script>

@@ -1,26 +1,19 @@
 <script lang="ts" context="module">
-	console.log('eerwerwwwwe!');
-	const location = '/login';
+	//import { redirect } from '@sveltejs/kit';
+	/* export const load = () => {
+		console.log('dddd');
 
-	let jj: object = { name: 'test' };
-
-	export async function load() {
-		// Do some magic here... ✨
-		console.log('eerwerwe#www');
-		return { props: jj };
-	}
-
-	export async function loads() {
-		console.log('eerwerwe#');
+		throw redirect(301, '/logindassa');
 		return {
 			status: 302,
-			redirect: location
+			redirect: '/rrr'
 		};
-	}
+	}; */
 </script>
 
-<script lang="ts">
+<!-- <script lang="ts">
 	export let jj: object;
 </script>
 
 <div class="div">{jj}</div>
+ -->
