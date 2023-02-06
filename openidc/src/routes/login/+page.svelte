@@ -20,11 +20,12 @@
 
 <form on:submit|preventDefault={login}>
 	<label for="username">Username</label><br />
-	<input bind:value={username} id="username" name="username" placeholder="Username" />
-	<br />
+	<div>
+		<input bind:value={username} id="username" name="username" placeholder="Username" />
+	</div>
 	<label for="password">Password</label><br />
-	<input bind:value={password} id="password" name="password" placeholder="Password" />
-	<br /><br />
-
+	<div>
+		<input bind:value={password} id="password" name="password" placeholder="Password" />
+	</div>
 	<button type="submit">Login</button>
 </form>
