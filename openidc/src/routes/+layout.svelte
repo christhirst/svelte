@@ -6,11 +6,12 @@
 	import Footer from '../components/Footer.svelte';
 
 	export let data: LayoutData;
-
+	console.log('data');
+	console.log(data.user);
 	//console.log($page);
 </script>
 
-<Navbar />
+<Navbar user={data.user} />
 <svelte:head>
 	<title>Website Name{$page.data.title ? ` - ${$page.data.title}` : ''}</title>
 	{#if $page.data.description}
@@ -18,11 +19,7 @@
 	{/if}
 </svelte:head>
 
-{#if data.user}
-	<p>Logged in as {data.user.name}</p>
-{/if}
-
-{#if data.user}
+<!-- {#if data.user}
 	<button
 		on:click={async () => {
 			const response = await fetch('/api/logout', { method: 'POST' });
@@ -33,7 +30,7 @@
 	>
 		Logout
 	</button>
-{/if}
+{/if} -->
 
 <slot />
 <Footer />

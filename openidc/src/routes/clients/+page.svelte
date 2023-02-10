@@ -13,7 +13,7 @@
 	$: console.log(form);
 </script>
 
-<Meta title="IAM" , description="iam server" type="test" />
+<Meta title="IAM" description="iam server" type="test" />
 <Form />
 
 <h2>{data}</h2>

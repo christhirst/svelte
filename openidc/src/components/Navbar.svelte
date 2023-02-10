@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	export let user;
 	const navs = [
 		{
 			title: 'Home',
@@ -24,6 +25,10 @@
 		},
 		{
 			title: 'Groups',
+			href: '/groups'
+		},
+		{
+			title: 'Profile',
 			href: '/groups'
 		}
 	];
@@ -50,14 +55,17 @@
 <nav>
 	<div class="container">
 		<a class="logo" href="/">
-			<h1>Start Bootstrap</h1>
+			<h1>Edison</h1>
 		</a>
 		<ul>
 			{#each navs as { title, href }}
 				<li>
-					<a {href} class:active={href === '/' ? routeId === '/' : url.includes(href)} {title}
-						>{title}</a
-					>
+					{#if title != 'Profile'}
+						<a {href} class:active={href === '/' ? routeId === '/' : url.includes(href)} {title}
+							>{title}</a
+						>
+					{:else if title == 'Profile'}{title}: {#if user} {user} {:else}Unlogged{/if}
+					{/if}
 				</li>
 			{/each}
 			<li class="relative">
@@ -71,6 +79,9 @@
 	</div>
 </nav>
 
+<!-- {#if data.user}
+<p>Logged in as {data.user}</p>
+{/if} -->
 <style>
 	nav {
 		padding: 0.5em;

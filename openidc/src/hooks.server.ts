@@ -1,8 +1,17 @@
 import { Issuer, generators } from 'openid-client';
 import { redirect, type Handle, type HandleFetch, type HandleServerError } from '@sveltejs/kit';
 import { resolveBaseUrl } from 'vite';
+import { user } from '$app/stores';
+
+export function getSession({ event }) {
+	//console.log('getSessions');
+	const user = 'test'; //event.cookies.get('sub');
+
+	return { user };
+}
 
 export const handle1: Handle = async ({ event, resolve }) => {
+	console.log('handle1');
 	const { locals, cookies, isDataRequest, url } = event;
 
 	if (!url.pathname.startsWith('/api')) {
@@ -17,8 +26,11 @@ export const handle1: Handle = async ({ event, resolve }) => {
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
+	const { locals, cookies, isDataRequest, url } = event;
+
 	const sub = event.cookies.get('sub');
-	console.log(sub);
+	event.locals.user = sub;
+	locals.user = sub;
 	const groups = [];
 	if (!sub) {
 		console.log(sub);
@@ -72,10 +84,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const groups = openidFields.groups;
 			console.log(sub);
 			console.log(groups);
-
-			/* const tokenSet = await client.callback('http://localhost:5173/', params, {
-			qsqq
-		});
+			try {
+				const tokenSet = await client.callback('http://localhost:5173/', params, {
+					qsqq
+				});
+			} catch (e) {
+				console.log(e);
+			}
+			/*
 		console.log('####!!###');
 		console.log(tokenSet.access_token);
 		console.log('received and validated tokens %j', tokenSet);
